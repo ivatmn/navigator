@@ -1,4 +1,4 @@
-package ru.copilot_build.auth;
+package com.github.ivatmn.navigator;
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;

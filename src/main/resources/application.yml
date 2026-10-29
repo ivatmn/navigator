@@ -1,6 +1,6 @@
 spring:
   application:
-    name: auth
+    name: navigator
 
   datasource:
     url: jdbc:sqlite:auth.db
@@ -9,5 +9,6 @@ spring:
   jpa:
     database-platform: org.hibernate.community.dialect.SQLiteDialect
     show-sql: true
+    open-in-view: false
     hibernate:
       ddl-auto: update

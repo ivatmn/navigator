@@ -32,6 +32,12 @@ build/
 
 ### VS Code ###
 .vscode/
-/auth.db
 /.mvn/
 /.gitattributes
+
+### Database ###
+/auth.db
+*.db
+*.db-journal
+*.db-wal
+*.db-shm

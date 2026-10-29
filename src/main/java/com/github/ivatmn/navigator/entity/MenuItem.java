@@ -30,7 +30,7 @@ public class MenuItem {
     private String menuType = "VIEW";
 
     // Ссылка на представление
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "view_id")
     private ViewDefinition viewDefinition;
 

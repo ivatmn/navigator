@@ -77,12 +77,22 @@
             </h6>
             <ul class="nav flex-column px-2">
                 <!-- Выводим подменю -->
+                <!-- Выводим подменю -->
                 <li class="nav-item" th:each="sub : ${subMenu}">
+                    <!-- Если есть представление — делаем ссылку по коду -->
                     <a class="nav-link"
-                       th:href="@{/view/{id}(id=${sub.viewDefinition?.id})}">
+                       th:if="${sub.viewDefinition != null}"
+                       th:href="@{'/view/' + ${sub.viewDefinition.code}}">
                         <i class="bi" th:classappend="${sub.icon}"></i>
                         <span th:text="${sub.name}"></span>
                     </a>
+
+                    <!-- Если представления нет (папка) — просто текст без ссылки -->
+                    <span class="nav-link text-muted"
+                          th:if="${sub.viewDefinition == null}">
+                        <i class="bi" th:classappend="${sub.icon}"></i>
+                        <span th:text="${sub.name}"></span>
+                    </span>
                 </li>
 
                 <!-- Если подменю пустое -->

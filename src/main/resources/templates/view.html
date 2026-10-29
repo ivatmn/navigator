@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${viewName}">Просмотр</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap-icons.min.css}">
+    <style>
+        body { background-color: #f4f6f9; }
+        .table-container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="table-container">
+        <h3 class="mb-4" th:text="${viewName}">Название представления</h3>
+
+        <table class="table table-bordered table-striped table-hover">
+            <thead class="table-light">
+            <tr>
+                <th th:each="col : ${columns}" th:text="${col}"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="row : ${rows}">
+                <!-- Используем row.get(col) для доступа к Map -->
+                <td th:each="col : ${columns}" th:text="${row.get(col)}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!-- Сообщение, если данных нет -->
+        <div th:if="${#lists.isEmpty(rows)}" class="alert alert-info text-center">
+            <i class="bi bi-info-circle me-2"></i> Данных нет
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <a href="/" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left me-1"></i> Назад
+        </a>
+    </div>
+</div>
+
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

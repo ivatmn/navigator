@@ -21,21 +21,24 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        // Разрешаем доступ к странице логина и статическим ресурсам (CSS, JS, WebJars)
-                        .requestMatchers("/login", "/css/**", "/js/**", "/webjars/**").permitAll()
-                        // Все остальные запросы требуют авторизации
+                        .requestMatchers("/login", "/css/**", "/js/**", "/error").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
-                        .loginPage("/login")              // GET-страница, которую мы создали
-                        .loginProcessingUrl("/login")     // POST-обработчик, куда отправляется форма
-                        .defaultSuccessUrl("/", true)     // Куда перенаправить после успеха
-                        .failureUrl("/login?error")       // Ошибка при неверном логине/пароле
+                        .loginPage("/login")
+                        .loginProcessingUrl("/login")
+                        .defaultSuccessUrl("/", true)
+                        .failureUrl("/login?error")
                         .permitAll()
+                )
+                .rememberMe(remember -> remember
+                        .key("navigator-super-secret-key-2026")
+                        .tokenValiditySeconds(7 * 24 * 60 * 60)
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout")
+                        .deleteCookies("JSESSIONID", "remember-me")
                         .permitAll()
                 );
 

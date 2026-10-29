@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Navigator - Главная</title>
+
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap-icons.min.css}">
+
+    <style>
+        body { background-color: #f4f6f9; }
+        .navbar { box-shadow: 0 2px 4px rgba(0,0,0,.08); }
+        .sidebar {
+            min-height: calc(100vh - 56px);
+            background-color: #fff;
+            border-right: 1px solid #dee2e6;
+        }
+        .main-content { padding: 20px; }
+    </style>
+</head>
+<body>
+
+<!-- Верхняя навигационная панель -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+        <!-- Логотип/Название -->
+        <a class="navbar-brand fw-bold" href="#">
+            <i class="bi bi-compass me-1"></i> Navigator
+            <!-- Выводим офис в скобках, если он есть -->
+                <span class="fw-normal text-white-50" style="font-size: 0.9em;"
+                      th:if="${officeName != null}"
+                      th:text="'(' + ${officeName} + ')'">
+            (Головной офис)
+        </span>
+        </a>
+
+        <!-- Блок пользователя справа -->
+        <div class="d-flex align-items-center ms-auto">
+            <span class="text-white me-3">
+                <i class="bi bi-person-circle me-1"></i> <span th:text="${username}">Пользователь</span>
+            </span>
+            <!-- Кнопка выхода (Spring Security перехватит POST /logout) -->
+            <form th:action="@{/logout}" method="post" class="m-0">
+                <button type="submit" class="btn btn-outline-light btn-sm">
+                    Выйти <i class="bi bi-box-arrow-right ms-1"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<!-- Основной макет (Сайдбар + Контент) -->
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Левый сайдбар (здесь будет динамическое меню) -->
+        <nav class="col-md-3 col-lg-2 d-md-block sidebar py-3">
+            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-2 mb-2 text-muted text-uppercase">
+                <span>Меню навигации</span>
+            </h6>
+            <ul class="nav flex-column px-2">
+                <!-- Заглушка на будущее -->
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">
+                        <i class="bi bi-house-door me-2"></i> Главная
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="bi bi-file-earmark-text me-2"></i> Отчеты
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Правая часть (Контент) -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Добро пожаловать!</h1>
+            </div>
+
+            <div class="alert alert-info">
+                <i class="bi bi-info-circle me-2"></i>
+                Это ваша главная страница. Позже здесь появится динамический дашборд и рабочие области.
+            </div>
+        </main>
+
+    </div>
+</div>
+
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

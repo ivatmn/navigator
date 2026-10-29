@@ -17,6 +17,11 @@
             border-right: 1px solid #dee2e6;
         }
         .main-content { padding: 20px; }
+        /* Стиль для активного корневого пункта */
+        .navbar-nav .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
@@ -25,22 +30,33 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">
         <!-- Логотип/Название -->
-        <a class="navbar-brand fw-bold" href="#">
+        <a class="navbar-brand fw-bold" href="/">
             <i class="bi bi-compass me-1"></i> Navigator
-            <!-- Выводим офис в скобках, если он есть -->
-                <span class="fw-normal text-white-50" style="font-size: 0.9em;"
-                      th:if="${officeName != null}"
-                      th:text="'(' + ${officeName} + ')'">
-            (Головной офис)
-        </span>
+            <span class="fw-normal text-white-50" style="font-size: 0.9em;"
+                  th:if="${officeName != null}"
+                  th:text="'(' + ${officeName} + ')'">
+                (Головной офис)
+            </span>
         </a>
 
+        <!-- Корневое меню -->
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item" th:each="item : ${rootMenu}">
+                <!-- Ссылка на тот же контроллер, но с параметром menuId, чтобы открыть его подменю -->
+                <a class="nav-link"
+                   th:classappend="${selectedRoot != null and selectedRoot.id == item.id} ? 'active' : ''"
+                   th:href="@{/(menuId=${item.id})}">
+                    <i class="bi" th:classappend="${item.icon}"></i>
+                    <span th:text="${item.name}"></span>
+                </a>
+            </li>
+        </ul>
+
         <!-- Блок пользователя справа -->
-        <div class="d-flex align-items-center ms-auto">
+        <div class="d-flex align-items-center">
             <span class="text-white me-3">
                 <i class="bi bi-person-circle me-1"></i> <span th:text="${username}">Пользователь</span>
             </span>
-            <!-- Кнопка выхода (Spring Security перехватит POST /logout) -->
             <form th:action="@{/logout}" method="post" class="m-0">
                 <button type="submit" class="btn btn-outline-light btn-sm">
                     Выйти <i class="bi bi-box-arrow-right ms-1"></i>
@@ -54,22 +70,24 @@
 <div class="container-fluid">
     <div class="row">
 
-        <!-- Левый сайдбар (здесь будет динамическое меню) -->
+        <!-- Левый сайдбар (подменю выбранного корневого пункта) -->
         <nav class="col-md-3 col-lg-2 d-md-block sidebar py-3">
             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-2 mb-2 text-muted text-uppercase">
-                <span>Меню навигации</span>
+                <span th:text="${selectedRoot != null ? selectedRoot.name : 'Меню'}">Меню</span>
             </h6>
             <ul class="nav flex-column px-2">
-                <!-- Заглушка на будущее -->
-                <li class="nav-item">
-                    <a class="nav-link active" href="#">
-                        <i class="bi bi-house-door me-2"></i> Главная
+                <!-- Выводим подменю -->
+                <li class="nav-item" th:each="sub : ${subMenu}">
+                    <a class="nav-link"
+                       th:href="@{/view/{id}(id=${sub.viewDefinition?.id})}">
+                        <i class="bi" th:classappend="${sub.icon}"></i>
+                        <span th:text="${sub.name}"></span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="bi bi-file-earmark-text me-2"></i> Отчеты
-                    </a>
+
+                <!-- Если подменю пустое -->
+                <li class="nav-item" th:if="${subMenu == null or #lists.isEmpty(subMenu)}">
+                    <span class="nav-link text-muted small">Нет доступных пунктов</span>
                 </li>
             </ul>
         </nav>
@@ -82,7 +100,7 @@
 
             <div class="alert alert-info">
                 <i class="bi bi-info-circle me-2"></i>
-                Это ваша главная страница. Позже здесь появится динамический дашборд и рабочие области.
+                Выберите пункт в меню слева. Это ваша главная страница.
             </div>
         </main>
 

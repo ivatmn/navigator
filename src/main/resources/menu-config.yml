@@ -1,0 +1,101 @@
+views:
+  - guid: "550e8400-e29b-41d4-a716-446655440000"
+    name: "Список пользователей"
+    code: "users_list"
+    sql: "SELECT id, login, display_name FROM app_user"
+
+  - guid: "660e8400-e29b-41d4-a716-446655440001"
+    name: "Список офисов"
+    code: "offices_list"
+    sql: "SELECT id, code, name, address FROM office"
+
+  - guid: "770e8400-e29b-41d4-a716-446655440002"
+    name: "Список ролей"
+    code: "roles_list"
+    sql: "SELECT id, code, name FROM role"
+
+  - guid: "880e8400-e29b-41d4-a716-446655440003"
+    name: "Журнал событий"
+    code: "logs_list"
+    sql: "SELECT id, event_type, event_date FROM audit_log"
+
+  - guid: "990e8400-e29b-41d4-a716-446655440004"
+    name: "Метаданные меню"
+    code: "meta_menu_list"
+    sql: "SELECT id, name, menu_type FROM menu_item"
+
+menu:
+  # === 1. АДМИНИСТРАТОР СЛОВАРЯ (Метаданные платформы) ===
+  - name: "Администратор словаря"
+    menuType: "VIEW"
+    icon: "bi-database-gear"
+    order: 10
+
+  - name: "Меню"
+    menuType: "VIEW"
+    icon: "bi-list-nested"
+    order: 1
+    parentName: "Администратор словаря"
+    viewCode: "meta_menu_list"
+
+  - name: "Представления"
+    menuType: "VIEW"
+    icon: "bi-table"
+    order: 2
+    parentName: "Администратор словаря"
+    viewCode: "users_list" # Заглушка
+
+  - name: "Методы"
+    menuType: "VIEW"
+    icon: "bi-gear"
+    order: 3
+    parentName: "Администратор словаря"
+    viewCode: "users_list" # Заглушка
+
+  - name: "Параметры"
+    menuType: "VIEW"
+    icon: "bi-sliders"
+    order: 4
+    parentName: "Администратор словаря"
+    viewCode: "users_list" # Заглушка
+
+  - name: "Интеграции"
+    menuType: "VIEW"
+    icon: "bi-plug"
+    order: 5
+    parentName: "Администратор словаря"
+    viewCode: "users_list" # Заглушка
+
+  # === 2. АДМИНИСТРАТОР ДОСТУПА (Учетные записи) ===
+  - name: "Администратор доступа"
+    menuType: "VIEW"
+    icon: "bi-shield-lock"
+    order: 20
+
+  - name: "Пользователи"
+    menuType: "VIEW"
+    icon: "bi-people"
+    order: 1
+    parentName: "Администратор доступа"
+    viewCode: "users_list"
+
+  - name: "Роли"
+    menuType: "VIEW"
+    icon: "bi-person-badge"
+    order: 2
+    parentName: "Администратор доступа"
+    viewCode: "roles_list"
+
+  - name: "Офисы"
+    menuType: "VIEW"
+    icon: "bi-building"
+    order: 3
+    parentName: "Администратор доступа"
+    viewCode: "offices_list"
+
+  - name: "Логи"
+    menuType: "VIEW"
+    icon: "bi-journal-text"
+    order: 4
+    parentName: "Администратор доступа"
+    viewCode: "logs_list"
